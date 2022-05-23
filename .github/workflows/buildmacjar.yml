@@ -1,0 +1,40 @@
+name: Build Mac jar
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: macos-12
+
+    steps:
+
+    - name: Setup Java JDK
+      uses: actions/setup-java@v3.3.0
+      with:
+        java-version: 17
+        distribution: liberica
+        java-package: jdk+fk # optional, default is jdk
+
+    - name: Install Additional Packages
+      run: |
+        brew update
+        brew install automake
+
+    - uses: actions/checkout@v3
+
+    - name: Build
+      run: cd dists/darwin && ./build
+
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.0
+      with:
+        name: Mac jar
+        path: target/libusb4java-darwin.jar

@@ -68,7 +68,7 @@ build_architecture () {
 
     # Build libusb
     autoreconf -i
-    ./configure --disable-shared --enable-static --with-pic --prefix="$ROOT_DIR" --host=$ARCH
+    ./configure --disable-shared --enable-static --with-pic --prefix="$ROOT_DIR" --host=$ARCH-apple-darwin --build=x86_64-apple-darwin # This will only build on x86 instances, but it works with GitHub Actions
     make install-strip
 
     # Build libusb4java
